@@ -16,18 +16,19 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.e("M_DetailActivity", "finish ")
             finish()
             return
         }
-           Log.e("M_DetailActivity", "savedInstanceState $savedInstanceState")
+        Log.e("M_DetailActivity", "savedInstanceState $savedInstanceState")
+        if (savedInstanceState == null) {
             val intent = intent
             val lang: Language? = intent.extras?.getParcelable(ConstantManager.LANG_OBJ_TAG)
             val bundle = Bundle()
             bundle.putParcelable(ConstantManager.LANG_OBJ_TAG, lang)
-            val fragmentDescription = DescriptionFragment.getInstance(bundle)
+            val fragmentDescription = DescriptionFragment.newInstance(bundle)
             supportFragmentManager.beginTransaction()
                 .add(R.id.description_container, fragmentDescription)
                 .commit()
+        }
     }
 }

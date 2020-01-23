@@ -1,5 +1,6 @@
 package com.optimus.fragmentorientation.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
 import android.view.View
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.item_language.view.*
  */
 class LanguageAdapter(val listener: (languageItem: Language) -> Unit) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
-    private var items : List<Language> = listOf()
+    private var items : MutableList<Language> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,7 +34,9 @@ class LanguageAdapter(val listener: (languageItem: Language) -> Unit) : Recycler
 
 
     fun updateData(newItems: List<Language>){
-        items = newItems
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
     }
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer{

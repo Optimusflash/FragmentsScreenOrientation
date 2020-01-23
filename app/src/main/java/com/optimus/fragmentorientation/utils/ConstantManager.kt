@@ -6,4 +6,5 @@ package com.optimus.fragmentorientation.utils
 object ConstantManager {
 
     const val LANG_OBJ_TAG = "LANG_OBJ_TAG"
+    const val ID_LANG_OBJ_TAG = "LANG_OBJ_TAG"
 }

@@ -13,6 +13,7 @@ import com.optimus.fragmentorientation.utils.DataGenerator
 import com.optimus.fragmentorientation.model.Language
 import com.optimus.fragmentorientation.ui.adapters.LanguageAdapter
 import kotlinx.android.synthetic.main.title_fragment.*
+import java.lang.ClassCastException
 
 
 /**
@@ -20,10 +21,10 @@ import kotlinx.android.synthetic.main.title_fragment.*
  */
 class TitleFragment : Fragment() {
 
-    private var onItemClickListener: OnItemClickListener? = null
+    private var onSelectLanguageListener: OnSelectLanguageListener? = null
 
     companion object {
-        fun getInstance(args: Bundle?): TitleFragment {
+        fun newInstance(args: Bundle?): TitleFragment {
             val fragment = TitleFragment()
             fragment.arguments = args
             return fragment
@@ -33,7 +34,11 @@ class TitleFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onItemClickListener = activity as? OnItemClickListener
+        try {
+            onSelectLanguageListener = activity as OnSelectLanguageListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(activity.toString() + " must implement OnItemClickListener")
+        }
     }
 
     override fun onCreateView(
@@ -49,30 +54,30 @@ class TitleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity == null) return
 
-        val context = activity!!.applicationContext
+            val context = activity!!.applicationContext
 
-        val languageAdapter = LanguageAdapter {
-            onItemClickListener?.onItemClick(it)
+            val languageAdapter = LanguageAdapter {
+                onSelectLanguageListener?.onItemClick(it)
 
-        }
+            }
 
-        val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        with(recycler_view){
-            layoutManager = LinearLayoutManager(context)
-            adapter = languageAdapter
-            addItemDecoration(divider)
-        }
+            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            with(recycler_view) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = languageAdapter
+                addItemDecoration(divider)
+            }
 
-        languageAdapter.updateData(DataGenerator.generateLanguage(context))
+            languageAdapter.updateData(DataGenerator.generateLanguage(context))
     }
 
 
     override fun onDetach() {
         super.onDetach()
-        onItemClickListener = null
+        onSelectLanguageListener = null
     }
 
-    interface OnItemClickListener {
+    interface OnSelectLanguageListener {
         fun onItemClick(lang: Language)
     }
 }

@@ -19,7 +19,7 @@ class DetailActivity : AppCompatActivity() {
             finish()
             return
         }
-        Log.e("M_DetailActivity", "savedInstanceState $savedInstanceState")
+
         if (savedInstanceState == null) {
             val intent = intent
             val lang: Language? = intent.extras?.getParcelable(ConstantManager.LANG_OBJ_TAG)

@@ -14,8 +14,7 @@ import com.optimus.fragmentorientation.utils.ConstantManager
 import com.optimus.fragmentorientation.utils.DataGenerator
 
 
-class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener,
-    DescriptionFragment.DescriptionListener {
+class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener {
 
     private var isLandscape = false
     private var langId: Int = 0
@@ -28,7 +27,6 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
         if (findViewById<View>(R.id.description_container) != null) {
             isLandscape = true
         }
-        Log.e("M_MainActivity", "onCreate savedInstanceState $savedInstanceState")
         if (savedInstanceState == null) {
             val titleFragment = TitleFragment.newInstance(null)
             supportFragmentManager.beginTransaction()
@@ -36,34 +34,23 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
                 .commit()
         } else {
             langObj = savedInstanceState.getParcelable(ConstantManager.LANG_OBJ_TAG)
-            if (isLandscape && langObj!=null) {
-                val lang = DataGenerator.getLanguageById(langObj!!.id)
-                val bundle = Bundle().apply {
-                    putParcelable(ConstantManager.LANG_OBJ_TAG, lang)
-                }
-                val fragmentDescription = DescriptionFragment.newInstance(bundle)
-                Log.e("M_MainActivity", "fragment ${fragmentDescription.hashCode()}")
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.description_container, fragmentDescription)
-                    .commit()
+            if (isLandscape && langObj != null) {
+                showDescription(langObj!!)
             }
         }
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.e("M_MainActivity", "onSaveInstanceState")
+        outState.putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
+    }
+
     override fun onItemClick(lang: Language) {
         langObj = lang
         if (isLandscape) {
-
-            val bundle = Bundle().apply {
-                putParcelable(ConstantManager.LANG_OBJ_TAG, lang)
-            }
-            val fragmentDescription = DescriptionFragment.newInstance(bundle)
-            Log.e("M_MainActivity", "fragment ${fragmentDescription.hashCode()}")
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.description_container, fragmentDescription)
-                .commit()
-
+            showDescription(lang)
         } else {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(ConstantManager.LANG_OBJ_TAG, lang)
@@ -72,26 +59,15 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.e("M_MainActivity", "onStart")
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e("M_MainActivity", "onResume")
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.e("M_MainActivity", "onSaveInstanceState")
-        outState.putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
-
-    }
-
-    override fun handleDescriptionById(id: Int) {
-        //langId = id
+    private fun showDescription(language: Language) {
+        val bundle = Bundle().apply {
+            putParcelable(ConstantManager.LANG_OBJ_TAG, language)
+        }
+        val fragmentDescription = DescriptionFragment.newInstance(bundle)
+        Log.e("M_MainActivity", "fragment ${fragmentDescription.hashCode()}")
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.description_container, fragmentDescription)
+            .commit()
     }
 }

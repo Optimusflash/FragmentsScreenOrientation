@@ -31,7 +31,6 @@ class TitleFragment : Fragment() {
         }
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {

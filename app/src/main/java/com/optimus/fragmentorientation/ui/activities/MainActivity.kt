@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
 
         private var isLandscape = false
         private var langObj: Language? = null
-
+        private var descriptionFragment: DescriptionFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,19 +33,19 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
                 .commit()
         } else {
             langObj = savedInstanceState.getParcelable(ConstantManager.LANG_OBJ_TAG)
-            if (isLandscape && langObj != null) {
-                val fragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
-                Log.e("M_MainActivity", "${fragment.hashCode()}")
+            if (isLandscape ) {
+                descriptionFragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
+                Log.e("M_MainActivity", "${descriptionFragment.hashCode()}")
                 val bundle = Bundle().apply {
                     putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
                 }
-                if(fragment==null){
-                    val descriptionFragment = DescriptionFragment.newInstance(bundle)
+                if(descriptionFragment==null){
+                    descriptionFragment = DescriptionFragment.newInstance(bundle)
                     supportFragmentManager.beginTransaction()
-                        .add(R.id.description_container, descriptionFragment)
+                        .add(R.id.description_container, descriptionFragment!!)
                         .commit()
                 } else {
-                    fragment.arguments = bundle
+                    descriptionFragment!!.arguments = bundle
                 }
             }
         }
@@ -98,22 +98,7 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
 
     }
 
-
     private fun showDescription(language: Language) {
-        val fragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
-
-        Log.e("M_MainActivity", "${fragment.hashCode()}")
-
-        if (fragment == null) {
-            val bundle = Bundle().apply {
-                putParcelable(ConstantManager.LANG_OBJ_TAG, language)
-            }
-            val fragmentDescription = DescriptionFragment.newInstance(bundle)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.description_container, fragmentDescription)
-                .commit()
-        } else {
-            fragment.updateDescription(language.description)
-        }
+        descriptionFragment?.updateDescription(language.description)
     }
 }

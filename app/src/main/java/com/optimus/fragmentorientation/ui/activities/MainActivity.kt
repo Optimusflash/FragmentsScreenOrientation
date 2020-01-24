@@ -34,13 +34,19 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
         } else {
             langObj = savedInstanceState.getParcelable(ConstantManager.LANG_OBJ_TAG)
             if (isLandscape && langObj != null) {
+                val fragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
+                Log.e("M_MainActivity", "${fragment.hashCode()}")
                 val bundle = Bundle().apply {
                     putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
                 }
-                val fragmentDescription = DescriptionFragment.newInstance(bundle)
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.description_container, fragmentDescription)
-                    .commit()
+                if(fragment==null){
+                    val descriptionFragment = DescriptionFragment.newInstance(bundle)
+                    supportFragmentManager.beginTransaction()
+                        .add(R.id.description_container, descriptionFragment)
+                        .commit()
+                } else {
+                    fragment.arguments = bundle
+                }
             }
         }
 

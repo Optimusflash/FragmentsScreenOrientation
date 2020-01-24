@@ -26,6 +26,8 @@ class DetailActivity : AppCompatActivity() {
             val bundle = Bundle()
             bundle.putParcelable(ConstantManager.LANG_OBJ_TAG, lang)
             val fragmentDescription = DescriptionFragment.newInstance(bundle)
+            Log.e("M_DetailActivity", "${fragmentDescription.hashCode()}")
+
             supportFragmentManager.beginTransaction()
                 .add(R.id.description_container, fragmentDescription)
                 .commit()

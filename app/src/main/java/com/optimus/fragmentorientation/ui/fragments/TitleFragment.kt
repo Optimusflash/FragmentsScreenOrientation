@@ -12,6 +12,7 @@ import com.optimus.fragmentorientation.R
 import com.optimus.fragmentorientation.utils.DataGenerator
 import com.optimus.fragmentorientation.model.Language
 import com.optimus.fragmentorientation.ui.adapters.LanguageAdapter
+import com.optimus.fragmentorientation.utils.ConstantManager
 import kotlinx.android.synthetic.main.title_fragment.*
 import java.lang.ClassCastException
 
@@ -24,9 +25,12 @@ class TitleFragment : Fragment() {
     private var onSelectLanguageListener: OnSelectLanguageListener? = null
 
     companion object {
-        fun newInstance(args: Bundle?): TitleFragment {
+        fun newInstance(langObj: Language?): TitleFragment {
+            val bundle = Bundle().apply {
+                putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
+            }
             val fragment = TitleFragment()
-            fragment.arguments = args
+            fragment.arguments = bundle
             return fragment
         }
     }

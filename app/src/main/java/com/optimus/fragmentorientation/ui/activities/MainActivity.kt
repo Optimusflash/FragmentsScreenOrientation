@@ -36,16 +36,14 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
             if (isLandscape ) {
                 descriptionFragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
                 Log.e("M_MainActivity", "${descriptionFragment.hashCode()}")
-                val bundle = Bundle().apply {
-                    putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
-                }
+
                 if(descriptionFragment==null){
-                    descriptionFragment = DescriptionFragment.newInstance(bundle)
+                    descriptionFragment = DescriptionFragment.newInstance(langObj)
                     supportFragmentManager.beginTransaction()
                         .add(R.id.description_container, descriptionFragment!!)
                         .commit()
                 } else {
-                    descriptionFragment!!.arguments = bundle
+                    descriptionFragment!!.arguments = savedInstanceState
                 }
             }
         }

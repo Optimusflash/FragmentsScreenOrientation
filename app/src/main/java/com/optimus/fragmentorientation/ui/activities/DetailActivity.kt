@@ -23,9 +23,8 @@ class DetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val intent = intent
             val lang: Language? = intent.extras?.getParcelable(ConstantManager.LANG_OBJ_TAG)
-            val bundle = Bundle()
-            bundle.putParcelable(ConstantManager.LANG_OBJ_TAG, lang)
-            val fragmentDescription = DescriptionFragment.newInstance(bundle)
+
+            val fragmentDescription = DescriptionFragment.newInstance(lang)
             Log.e("M_DetailActivity", "${fragmentDescription.hashCode()}")
 
             supportFragmentManager.beginTransaction()

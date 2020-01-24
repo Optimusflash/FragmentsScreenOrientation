@@ -19,9 +19,12 @@ class DescriptionFragment : Fragment() {
     private var language : Language? =null
     private lateinit var textViewDescription: TextView
     companion object{
-        fun newInstance(args: Bundle?): DescriptionFragment{
+        fun newInstance(langObj: Language?): DescriptionFragment{
+            val bundle = Bundle().apply {
+                putParcelable(ConstantManager.LANG_OBJ_TAG, langObj)
+            }
             val fragment = DescriptionFragment()
-            fragment.arguments = args
+            fragment.arguments = bundle
             return fragment
         }
     }

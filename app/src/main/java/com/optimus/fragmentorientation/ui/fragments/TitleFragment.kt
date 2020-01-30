@@ -71,7 +71,7 @@ class TitleFragment : Fragment() {
                 addItemDecoration(divider)
             }
 
-            languageAdapter.updateData(DataGenerator.generateLanguage(context))
+            languageAdapter.updateData(DataGenerator.generateLanguage())
     }
 
 

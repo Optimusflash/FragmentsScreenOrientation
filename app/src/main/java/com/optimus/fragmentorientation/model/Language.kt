@@ -6,18 +6,18 @@ import android.os.Parcelable
 /**
  * Created by Dmitriy Chebotar on 15.01.2020.
  */
-data class Language(val id: Int, val name: String, val description: String): Parcelable {
+data class Language(val id: Int, val name: String, val description: Int): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
-        parcel.readString().toString()
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(name)
-        parcel.writeString(description)
+        parcel.writeInt(description)
     }
 
     override fun describeContents(): Int {

@@ -56,9 +56,10 @@ class DescriptionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.e("M_DescriptionFragment", "onViewCreated")
 
-
         language = arguments?.getParcelable(ConstantManager.LANG_OBJ_TAG)
-        textViewDescription.text = language?.description
+        language?.let {
+            textViewDescription.text = view.resources.getString(it.description)
+        }
 
     }
 

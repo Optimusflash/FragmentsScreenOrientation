@@ -34,21 +34,13 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
         } else {
             langObj = savedInstanceState.getParcelable(ConstantManager.LANG_OBJ_TAG)
             if (isLandscape ) {
-                descriptionFragment = supportFragmentManager.findFragmentById(R.id.description_container) as? DescriptionFragment
-                Log.e("M_MainActivity", "${descriptionFragment.hashCode()}")
-
-                if(descriptionFragment==null){
-                    descriptionFragment = DescriptionFragment.newInstance(langObj)
-                    supportFragmentManager.beginTransaction()
-                        .add(R.id.description_container, descriptionFragment!!)
-                        .commit()
-                } else {
-                    descriptionFragment!!.arguments = savedInstanceState
-                }
+                showDetails()
             }
         }
 
     }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -87,7 +79,7 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
     override fun onItemClick(lang: Language) {
         langObj = lang
         if (isLandscape) {
-            showDescription(lang)
+            showDetails()
         } else {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(ConstantManager.LANG_OBJ_TAG, lang)
@@ -96,7 +88,11 @@ class MainActivity : AppCompatActivity(), TitleFragment.OnSelectLanguageListener
 
     }
 
-    private fun showDescription(language: Language) {
-        descriptionFragment?.updateDescription(language.description)
+    private fun showDetails() {
+            descriptionFragment = DescriptionFragment.newInstance(langObj)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.description_container, descriptionFragment!!)
+                .commit()
     }
+
 }

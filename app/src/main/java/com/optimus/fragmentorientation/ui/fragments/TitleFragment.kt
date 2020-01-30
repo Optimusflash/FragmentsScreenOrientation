@@ -2,25 +2,22 @@ package com.optimus.fragmentorientation.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.optimus.fragmentorientation.R
-import com.optimus.fragmentorientation.utils.DataGenerator
 import com.optimus.fragmentorientation.model.Language
 import com.optimus.fragmentorientation.ui.adapters.LanguageAdapter
 import com.optimus.fragmentorientation.utils.ConstantManager
+import com.optimus.fragmentorientation.utils.DataGenerator
 import kotlinx.android.synthetic.main.title_fragment.*
-import java.lang.ClassCastException
 
 
 /**
  * Created by Dmitriy Chebotar on 15.01.2020.
  */
-class TitleFragment : Fragment() {
+class TitleFragment : Fragment(R.layout.title_fragment) {
 
     private var onSelectLanguageListener: OnSelectLanguageListener? = null
 
@@ -44,13 +41,6 @@ class TitleFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return layoutInflater.inflate(R.layout.title_fragment, container, false)
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

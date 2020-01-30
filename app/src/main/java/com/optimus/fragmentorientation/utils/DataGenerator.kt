@@ -1,6 +1,5 @@
 package com.optimus.fragmentorientation.utils
 
-import android.content.Context
 import com.optimus.fragmentorientation.R
 import com.optimus.fragmentorientation.model.Language
 

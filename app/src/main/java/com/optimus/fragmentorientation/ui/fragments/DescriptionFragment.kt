@@ -3,21 +3,19 @@ package com.optimus.fragmentorientation.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.optimus.fragmentorientation.R
 import com.optimus.fragmentorientation.model.Language
 import com.optimus.fragmentorientation.utils.ConstantManager
+import kotlinx.android.synthetic.main.detail_fragment.*
 
 /**
  * Created by Dmitriy Chebotar on 15.01.2020.
  */
-class DescriptionFragment : Fragment() {
+class DescriptionFragment : Fragment(R.layout.detail_fragment) {
     private var language : Language? =null
-    private lateinit var textViewDescription: TextView
+
     companion object{
         fun newInstance(langObj: Language?): DescriptionFragment{
             val bundle = Bundle().apply {
@@ -41,24 +39,13 @@ class DescriptionFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.e("M_DescriptionFragment", "onCreateView")
-        val view = inflater.inflate(R.layout.detail_fragment, container, false)
-        textViewDescription = view.findViewById(R.id.tv_language_description)
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.e("M_DescriptionFragment", "onViewCreated")
 
         language = arguments?.getParcelable(ConstantManager.LANG_OBJ_TAG)
         language?.let {
-            textViewDescription.text = view.resources.getString(it.description)
+            tv_language_description.text = view.resources.getString(it.description)
         }
 
     }
@@ -69,9 +56,6 @@ class DescriptionFragment : Fragment() {
 
     }
 
-    fun updateDescription(newText: String) {
-        textViewDescription.text = newText
-    }
 
     override fun onPause() {
         super.onPause()
